@@ -8,6 +8,6 @@ export interface PatchUpdate {
   InitialReleaseDate: Date;
   CurrentReleaseDate: Date;
   CvrfUrl: string;
-  Contexto: string;
+  Contexto: string; 
   
 }

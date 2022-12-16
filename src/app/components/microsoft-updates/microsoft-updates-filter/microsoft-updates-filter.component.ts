@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DoCheck, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { PageForm } from 'app/config/page-form';
 import { MicrosoftUpdateService } from 'app/services/microsoft-update.service';
 import { PatchUpdate } from 'app/vo/patch-update';
 import { Subscribable, Subscriber, Subscription } from 'rxjs';
@@ -9,36 +10,51 @@ import { Subscribable, Subscriber, Subscription } from 'rxjs';
   styleUrls: ['./microsoft-updates-filter.component.scss']
   
 })
-export class MicrosoftUpdatesFilterComponent implements OnInit,  OnDestroy {
-
-  lista: [];
-  filtro: PatchUpdate;
-
-  constructor(private microsoftUpdateService: MicrosoftUpdateService) { }
-
+export class MicrosoftUpdatesFilterComponent implements OnInit,  OnDestroy, DoCheck {
+  
+  @Input() filtro: PatchUpdate;
+  pager: PageForm;  
   subscription: Subscription;
 
+  constructor(private microsoftUpdateService: MicrosoftUpdateService) { }
+  
+  //Hook responsável por detectar mudanças nos valores dos campos
+  ngDoCheck(): void {
+
+     this.pager.filtrado = false;
+
+     console.log(this.filtro.ID.trim());
+     if(this.filtro.ID.trim() !== '') {
+      this.pager.filtrado = true;
+     }
+
+  }
+
+
   ngOnInit() {
-    this.lista = [];
-    this.filtro = this.microsoftUpdateService.novo();
     
+    this.filtro = this.microsoftUpdateService.novo();
+    this.pager = new PageForm();
+  }  
+
+  public paginar($event) {
+
+    this.buscar();
   }
 
   public buscar() {
     
-    
-    this.subscription = this.microsoftUpdateService.filter(0, 5, this.filtro)
-    .subscribe(p => {       
-        
-      this.lista = p;    
-      console.log(`${this.lista}`);    
 
+    this.subscription = this.microsoftUpdateService.filter(this.pager.pageable.pageNumber, this.pager.size, this.filtro)
+    .subscribe(page => {       
+        
+        this.pager = page;        
+        
     }), err => {
       console.error(err);
     };
     
   }
-
   
 
   ngOnDestroy(): void {

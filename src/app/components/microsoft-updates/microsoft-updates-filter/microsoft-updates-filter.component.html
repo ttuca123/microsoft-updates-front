@@ -8,22 +8,22 @@
     
     <mat-form-field class="example-full-width">
       <mat-label>Alias</mat-label>
-      <input name="Alias" matInput placeholder="Alias" value="">
+      <input name="Alias" matInput placeholder="Alias" [(ngModel)]="filtro.Alias" value="">
     </mat-form-field>
 
     <mat-form-field class="example-full-width">
-      <mat-label>Url</mat-label>
-      <input name="Url" matInput placeholder="Url" value="">
+      <mat-label>CvrfUrl</mat-label>
+      <input name="CvrfUrl" matInput placeholder="CvrfUrl" value="" [(ngModel)]="filtro.CvrfUrl" Alias>
     </mat-form-field>              
 
     <mat-form-field class="example-full-width">
       <mat-label>Título Documento</mat-label>
-      <input name="titulo_documento" matInput placeholder="Título Documento" value="">
+      <input name="titulo_documento" matInput placeholder="Título Documento" [(ngModel)]="filtro.DocumentTitle" value="">
     </mat-form-field>
 
     <mat-form-field class="example-full-width">
       <mat-label>Contexto</mat-label>
-      <input name="contexto" matInput placeholder="Contexto" value="">
+      <input name="contexto" matInput placeholder="Contexto" value="" [(ngModel)]="filtro.Contexto">
     </mat-form-field>
 
     <button name="filtro" mat-raised-button type="submit" class="btn btn-white btn-round btn-just-icon">
@@ -32,6 +32,6 @@
     </button>
   </form>
 </div>
-  <app-microsoft-updates-list [lista]="lista" [filtro]="filtro"></app-microsoft-updates-list>
+  <app-microsoft-updates-list [pager]="pager" (paginar)="paginar($event)"></app-microsoft-updates-list>
 
              

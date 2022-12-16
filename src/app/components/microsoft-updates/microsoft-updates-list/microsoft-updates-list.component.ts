@@ -1,6 +1,7 @@
 
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { PatchUpdate } from 'app/vo/patch-update';
+import { ChangeDetectionStrategy, Component, DoCheck, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { PageForm } from 'app/config/page-form';
+import {MatPaginatorIntl} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-microsoft-updates-list',
@@ -8,27 +9,33 @@ import { PatchUpdate } from 'app/vo/patch-update';
   styleUrls: ['./microsoft-updates-list.component.scss']  
   
 })
-export class MicrosoftUpdatesListComponent implements OnInit, OnChanges {  
+export class MicrosoftUpdatesListComponent implements OnInit{  
 
-  @Input('lista') lista: [];
-  @Input('filtro') fitro: any;
+  @Input('pager') pager: PageForm;
+  @Input('filtrado') filtrado: boolean;
+  @Output('paginar') paginar: EventEmitter<any> = new EventEmitter();    
 
+  pageAtual = 1;
   DATA_HORA = 'dd/MM/yyyy HH:mm';
+  displayedColumns: string[] = ['id', 'alias', 'documentTitle', 'gravidade', 'inicioRelease', 'atualRelease', 'cvrfUrl'];
+  
 
-  constructor() { }
+  constructor() {    
+   }
 
   ngOnInit() {
+    
+    this.pager = new PageForm();     
+    
+  }  
 
-    console.log('lista 2 ');
-    console.log(`${this.lista}`);
 
-    //this.listaPatchs = [{alias: '', contexto: '', cvrfUrl: '', documentTitle: '', id: '', severity: '' }];
+  pageChanged(event: any): void {      
 
-  }
-
-  ngOnChanges() {
-
-    console.log(this.lista);
+     // console.log(this.paginador);
+    this.pager.pageable.pageNumber=event.pageIndex;
+    this.pageAtual = event.pageIndex;     
+    this.paginar.emit(); 
   }
 
 }

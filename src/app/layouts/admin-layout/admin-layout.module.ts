@@ -21,7 +21,8 @@ import {
   MatSelectModule,
   MatCardModule,
   MatExpansionModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  MatTableModule
 } from '@angular/material';
 import { MicrosoftUpdatesComponent } from 'app/components/microsoft-updates/microsoft-updates.component';
 import { MicrosoftUpdatesListComponent } from 'app/components/microsoft-updates/microsoft-updates-list/microsoft-updates-list.component';
@@ -42,7 +43,8 @@ import { MicrosoftUpdateService } from 'app/services/microsoft-update.service';
     MatTooltipModule,
     MatPaginatorModule,
     MatCardModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatTableModule
   ],
   declarations: [
     DashboardComponent,
